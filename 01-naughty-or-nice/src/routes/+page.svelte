@@ -77,6 +77,9 @@
 {/if}
 
 <style>
+	form {
+		margin-bottom: 20px;
+	}
 	.error {
 		color: red;
 	}
