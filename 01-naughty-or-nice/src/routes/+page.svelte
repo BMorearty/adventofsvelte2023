@@ -58,6 +58,10 @@
 	</form>
 	<table>
 		<tr>
+			<th>Nice children</th>
+			<th>Naughty children</th>
+		</tr>
+		<tr>
 			<td style="vertical-align: top">
 				<table class="nice">
 					{#each niceChildren as child, i}
