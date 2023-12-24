@@ -1,7 +1,8 @@
 <script lang="ts">
 	import type { Child } from './types';
-	import ShowChild from './ShowChild.svelte';
-	import { onMount } from 'svelte';
+	import { onMount, tick } from 'svelte';
+	import { crossfade } from 'svelte/transition';
+	import { flip } from 'svelte/animate';
 
 	let children: Child[];
 	let niceChildren: Child[];
@@ -9,6 +10,8 @@
 	let errorMessage: string;
 	let name: string;
 	let timeout: number;
+	let lastId = 0;
+	const [send, receive] = crossfade({});
 
 	function updateChildren() {
 		timeout = 0;
@@ -22,7 +25,7 @@
 		fetch('https://advent.sveltesociety.dev/data/2023/day-one.json')
 			.then((response) => response.json())
 			.then((json) => {
-				children = json;
+				children = json.map((child: Child) => ({ ...child, id: ++lastId }));
 				updateChildren();
 			})
 			.catch(() => (errorMessage = 'Unable to get naughty or nice data!'));
@@ -41,10 +44,12 @@
 		timeout = setTimeout(updateChildren, 1000);
 	}
 
-	function addChild() {
-		children = [{ name, tally: 0 }, ...children];
+	async function addChild() {
+		children = [{ name, tally: 0, id: ++lastId }, ...children];
 		updateChildren();
 		name = '';
+		await tick();
+		window.scrollTo(0, document.body.scrollHeight);
 	}
 </script>
 
@@ -66,15 +71,25 @@
 		<tr>
 			<td style="vertical-align: top">
 				<table class="nice">
-					{#each niceChildren as child, i}
-						<ShowChild {child} list={niceChildren} onclick={naughtyOrNice} {i} />
+					{#each niceChildren as child, i (child.id)}
+						<tr in:receive={{ key: child.id }} out:send={{ key: child.id }} animate:flip>
+							<td>{child.name}</td>
+							<td>{child.tally}</td>
+							<td><button on:click={() => naughtyOrNice(niceChildren, i, -1)}>😈</button></td>
+							<td><button on:click={() => naughtyOrNice(niceChildren, i, 1)}>😇</button></td>
+						</tr>
 					{/each}
 				</table>
 			</td>
 			<td style="vertical-align: top">
 				<table class="naughty">
-					{#each naughtyChildren as child, i}
-						<ShowChild {child} list={naughtyChildren} onclick={naughtyOrNice} {i} />
+					{#each naughtyChildren as child, i (child.id)}
+						<tr in:receive={{ key: child.id }} out:send={{ key: child.id }} animate:flip>
+							<td>{child.name}</td>
+							<td>{child.tally}</td>
+							<td><button on:click={() => naughtyOrNice(naughtyChildren, i, -1)}>😈</button></td>
+							<td><button on:click={() => naughtyOrNice(naughtyChildren, i, 1)}>😇</button></td>
+						</tr>
 					{/each}
 				</table></td
 			>
@@ -87,6 +102,8 @@
 		background-color: #333;
 		color: #ccc;
 		font-family: Arial, Helvetica, sans-serif;
+		width: 420px;
+		margin: 0 auto;
 	}
 	h1 {
 		margin-left: 20px;
@@ -108,5 +125,11 @@
 	}
 	.naughty {
 		background-color: darkred;
+	}
+	button {
+		font-size: large;
+		background-color: transparent;
+		color: #ccc;
+		border: transparent;
 	}
 </style>
