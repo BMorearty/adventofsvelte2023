@@ -43,6 +43,8 @@
 
 	function addChild() {
 		children = [{ name, tally: 0 }, ...children];
+		updateChildren();
+		name = '';
 	}
 </script>
 
