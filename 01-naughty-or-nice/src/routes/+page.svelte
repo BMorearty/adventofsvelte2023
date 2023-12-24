@@ -75,8 +75,14 @@
 						<tr in:receive={{ key: child.id }} out:send={{ key: child.id }} animate:flip>
 							<td>{child.name}</td>
 							<td>{child.tally}</td>
-							<td><button on:click={() => naughtyOrNice(niceChildren, i, -1)}>😈</button></td>
-							<td><button on:click={() => naughtyOrNice(niceChildren, i, 1)}>😇</button></td>
+							<td
+								><button class="naughtyBtn" on:click={() => naughtyOrNice(niceChildren, i, -1)}
+								></button></td
+							>
+							<td
+								><button class="niceBtn" on:click={() => naughtyOrNice(niceChildren, i, 1)}
+								></button></td
+							>
 						</tr>
 					{/each}
 				</table>
@@ -87,8 +93,14 @@
 						<tr in:receive={{ key: child.id }} out:send={{ key: child.id }} animate:flip>
 							<td>{child.name}</td>
 							<td>{child.tally}</td>
-							<td><button on:click={() => naughtyOrNice(naughtyChildren, i, -1)}>😈</button></td>
-							<td><button on:click={() => naughtyOrNice(naughtyChildren, i, 1)}>😇</button></td>
+							<td
+								><button class="naughtyBtn" on:click={() => naughtyOrNice(naughtyChildren, i, -1)}
+								></button></td
+							>
+							<td
+								><button class="niceBtn" on:click={() => naughtyOrNice(naughtyChildren, i, 1)}
+								></button></td
+							>
 						</tr>
 					{/each}
 				</table></td
@@ -131,5 +143,21 @@
 		background-color: transparent;
 		color: #ccc;
 		border: transparent;
+	}
+	.naughtyBtn:after {
+		content: '😈';
+	}
+	.naughtyBtn:active:after {
+		content: '👿';
+	}
+	.niceBtn:after {
+		content: '😇';
+	}
+	.niceBtn:active:after {
+		content: '😮';
+	}
+	.naughtyBtn:active,
+	.niceBtn:active {
+		transform: scale(1.5);
 	}
 </style>
