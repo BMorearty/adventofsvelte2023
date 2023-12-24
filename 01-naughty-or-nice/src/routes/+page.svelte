@@ -2,7 +2,7 @@
 	import type { Child } from './types';
 	import { onMount, tick } from 'svelte';
 	import { crossfade } from 'svelte/transition';
-	import { flip } from 'svelte/animate';
+	import Children from './Children.svelte';
 
 	let children: Child[];
 	let niceChildren: Child[];
@@ -49,7 +49,7 @@
 		updateChildren();
 		name = '';
 		await tick();
-		window.scrollTo(0, document.body.scrollHeight);
+		window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 	}
 </script>
 
@@ -70,41 +70,11 @@
 		</tr>
 		<tr>
 			<td style="vertical-align: top">
-				<table class="nice">
-					{#each niceChildren as child, i (child.id)}
-						<tr in:receive={{ key: child.id }} out:send={{ key: child.id }} animate:flip>
-							<td>{child.name}</td>
-							<td>{child.tally}</td>
-							<td
-								><button class="naughtyBtn" on:click={() => naughtyOrNice(niceChildren, i, -1)}
-								></button></td
-							>
-							<td
-								><button class="niceBtn" on:click={() => naughtyOrNice(niceChildren, i, 1)}
-								></button></td
-							>
-						</tr>
-					{/each}
-				</table>
+				<Children list="nice" children={niceChildren} {send} {receive} {naughtyOrNice} />
 			</td>
 			<td style="vertical-align: top">
-				<table class="naughty">
-					{#each naughtyChildren as child, i (child.id)}
-						<tr in:receive={{ key: child.id }} out:send={{ key: child.id }} animate:flip>
-							<td>{child.name}</td>
-							<td>{child.tally}</td>
-							<td
-								><button class="naughtyBtn" on:click={() => naughtyOrNice(naughtyChildren, i, -1)}
-								></button></td
-							>
-							<td
-								><button class="niceBtn" on:click={() => naughtyOrNice(naughtyChildren, i, 1)}
-								></button></td
-							>
-						</tr>
-					{/each}
-				</table></td
-			>
+				<Children list="naughty" children={naughtyChildren} {send} {receive} {naughtyOrNice} />
+			</td>
 		</tr>
 	</table>
 {/if}
@@ -118,46 +88,13 @@
 		margin: 0 auto;
 	}
 	h1 {
-		margin-left: 20px;
+		margin-left: 5px;
 	}
 	form {
-		margin-left: 20px;
+		margin-left: 5px;
 		margin-bottom: 20px;
 	}
 	.error {
 		color: red;
-	}
-	table {
-		border-radius: 10px;
-		margin: 5px;
-		padding: 10px;
-	}
-	.nice {
-		background-color: darkgreen;
-	}
-	.naughty {
-		background-color: darkred;
-	}
-	button {
-		font-size: large;
-		background-color: transparent;
-		color: #ccc;
-		border: transparent;
-	}
-	.naughtyBtn:after {
-		content: '😈';
-	}
-	.naughtyBtn:active:after {
-		content: '👿';
-	}
-	.niceBtn:after {
-		content: '😇';
-	}
-	.niceBtn:active:after {
-		content: '😮';
-	}
-	.naughtyBtn:active,
-	.niceBtn:active {
-		transform: scale(1.5);
 	}
 </style>
