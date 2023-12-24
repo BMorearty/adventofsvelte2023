@@ -10,6 +10,15 @@
 <tr>
 	<td>{child.name}</td>
 	<td>{child.tally}</td>
-	<td><button on:click={() => onclick(list, i, -1)}>Naughtier</button></td>
-	<td><button on:click={() => onclick(list, i, 1)}>Nicer</button></td>
+	<td><button on:click={() => onclick(list, i, -1)}>😈</button></td>
+	<td><button on:click={() => onclick(list, i, 1)}>😇</button></td>
 </tr>
+
+<style>
+	button {
+		font-size: large;
+		background-color: transparent;
+		color: #ccc;
+		border: transparent;
+	}
+</style>

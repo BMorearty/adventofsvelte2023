@@ -81,16 +81,30 @@
 {/if}
 
 <style>
+	:global(body) {
+		background-color: #333;
+		color: #ccc;
+		font-family: Arial, Helvetica, sans-serif;
+	}
+	h1 {
+		margin-left: 20px;
+	}
 	form {
+		margin-left: 20px;
 		margin-bottom: 20px;
 	}
 	.error {
 		color: red;
 	}
+	table {
+		border-radius: 10px;
+		margin: 5px;
+		padding: 10px;
+	}
 	.nice {
-		background-color: greenyellow;
+		background-color: darkgreen;
 	}
 	.naughty {
-		background-color: hotpink;
+		background-color: darkred;
 	}
 </style>
