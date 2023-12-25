@@ -3,6 +3,7 @@
 	import { onMount, tick } from 'svelte';
 	import { crossfade } from 'svelte/transition';
 	import Children from './Children.svelte';
+	import Octocat from './Octocat.svelte';
 
 	let children: Child[];
 	let niceChildren: Child[];
@@ -53,7 +54,12 @@
 	}
 </script>
 
-<h1>Naughty or nice counter</h1>
+<h1>
+	Naughty or nice counter
+	<a href="https://github.com/BMorearty/adventofsvelte2023/tree/main/01-naughty-or-nice">
+		<Octocat /></a
+	>
+</h1>
 
 {#if errorMessage}
 	<p class="error">{errorMessage}</p>
@@ -98,5 +104,8 @@
 		border: 1px solid red;
 		padding: 5px;
 		/*color: red;*/
+	}
+	h1 {
+		position: relative;
 	}
 </style>
