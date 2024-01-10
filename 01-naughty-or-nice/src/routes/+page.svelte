@@ -95,6 +95,7 @@
 	}
 	h1 {
 		margin-left: 5px;
+		position: relative;
 	}
 	form {
 		margin-left: 5px;
@@ -104,8 +105,5 @@
 		border: 1px solid red;
 		padding: 5px;
 		/*color: red;*/
-	}
-	h1 {
-		position: relative;
 	}
 </style>
